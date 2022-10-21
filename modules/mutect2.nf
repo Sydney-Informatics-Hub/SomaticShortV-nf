@@ -1,16 +1,27 @@
 #!/usr/bin/env nextflow
 
+// Enable DSL-2 syntax
+nextflow.enable.dsl=2
 
 refdir='/scratch/wz54/gs5517/sarek_testing/Reference/v0'
 base_path='/scratch/wz54/npd561/PIPE-2629_thyroid_carcinoma/nextflow_pipelines/nfcore/sarek'
 
+// Define the process
+/// This process runs mutect2 on a tumor/normal sample-pair 
+
 process mutect2 {
 
-
+        // Unhash container command below and edit name of container
+	// if using Docker/Singularity containers
+        //container "${params.container}
+        
+        // where to publish the outputs
         tag "$bam_id $splitIntervalNumber"
-
         publishDir "$params.outdirA/", mode:'copy'
-
+        
+        
+        // See: https://www.nextflow.io/docs/latest/process.html#inputs
+	/// each input needs to be placed on a new line
         input:
                 path pon_vcf
                 path pon_vcf_index
@@ -18,12 +29,14 @@ process mutect2 {
 
                 each splitIntervalNumber
 
+        // See: https://www.nextflow.io/docs/latest/process.html#outputs
+	// each new output needs to be placed on a new line
         output:
                 path ("${bam_id}-T_${bam_id}-N.unfiltered.${splitIntervalNumber}.vcf.gz")
                 path ("${bam_id}-T_${bam_id}-N.unfiltered.${splitIntervalNumber}.vcf.gz.stats")
                 path ("${bam_id}-T_${bam_id}-N.f1r2.${splitIntervalNumber}.tar.gz")
 
-
+        // this is the code block 
         script:
 
         """
