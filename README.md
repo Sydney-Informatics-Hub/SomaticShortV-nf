@@ -84,7 +84,6 @@ When you run the pipeline, you will use the mandatory `--input` parameter to spe
 To run this pipeline you will need the following reference files:
 
 * Indexed reference genome in FASTA format 
-* [VEP cache](https://asia.ensembl.org/info/docs/tools/vep/script/vep_cache.html#cache) (Optional) 
 
 You will need to download and index a copy of the reference genome you would like to use. Reference FASTA files must be accompanied by a .fai index file. If you are working with a species that has a public reference genome, you can download FASTA files from the [Ensembl](https://asia.ensembl.org/info/data/ftp/index.html), [UCSC](https://genome.ucsc.edu/goldenPath/help/ftp.html), or [NCBI](https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/) ftp sites. You can use our [IndexReferenceFasta-nf pipeline](https://github.com/Sydney-Informatics-Hub/IndexReferenceFasta-nf) to generate indexes. 
 
@@ -94,33 +93,6 @@ When you run the pipeline, you will use the mandatory `--ref` parameter to speci
 --ref /path/to/reference.fasta
 ```
 
-If you intend to run the optional step of variant annotation with VEP, you will need to manually download a cache of the VEP database before running the pipeline (if available for your organism). See [these instructions](https://asia.ensembl.org/info/docs/tools/vep/script/vep_cache.html#cache) for how to prepare your data and [Ensembl's VEP ftp site](https://ftp.ensembl.org/pub/release-108/variation/indexed_vep_cache/), for available databases. In short, you will need to do the following: 
-
-**Create a local cache directory** 
-
-Be aware, the VEP cache requires a lot of disk space, for example the Hg38 108 release database requires ~21G. Because of this it is essential to create this directory somewhere with enough disk space to store it. Create the directory:  
-```
-mkdir -p <name of cache directory>
-```
-
-**Download a copy of the cache**
-
-Download the cache to your cache directory. For example:  
-```
-wget -P <name of cache directory> ftp://ftp.ensembl.org/pub/release-108/variation/indexed_vep_cache/homo_sapiens_vep_108_GRCh38.tar.gz
-```
-
-Unzip it: 
-
-```
-tar xzf homo_sapiens_vep_108_GRCh38.tar.gz
-```
-
-When you run the pipeline, if you would like to perform variant annotation with VEP, you will use the `--VEPcache` parameter to specify the location and name of the input file: 
-
-```
---VEPcache /path/to/VEP_cache 
-```
 
 ### 3. Clone this repository 
 
@@ -152,7 +124,24 @@ The important features are:
 The most basic run command for this pipeline is: 
 
 ```
-nextflow run main.nf --input sample.tsv --ref /path/to/ref 
+nextflow run main.nf \
+        -with-report _Mutect2AndFilter.html \
+        -with-timeline timeline_report_Mutect2AndFilter.html \
+	      -with-dag results/pipeline_flowchart.pdf
+
+
+// We need to pass the ref path to the above comand - similar to the command below!
+// Possibly I also need to tweak the command to include a cutom sample.tsv or to keep it simple for now, provide a path to the input files folder
+
+// nextflow run main.nf  \
+//     --input sample.tsv \
+//     --ref /path/to/ref \
+//     -with-report excecution_report.html \
+//.    -with-timeline timeline_report.html \
+//     -with-dag pipeline_flowchart.pdf
+
+
+
 ```
 
 By default, this will generate `work` directory, `results` output directory and a `runInfo` run metrics directory in the same location you ran the pipeline from. 
