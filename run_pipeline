@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 	
-nextflow run main.nf
+nextflow run main.nf \
         -with-report excecution_report_Mutect2AndFilter.html \
         -with-timeline timeline_report_Mutect2AndFilter.html \
 	-with-dag results/pipeline_flowchart.pdf
