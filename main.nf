@@ -120,25 +120,24 @@ workflow {
 	else 
 	{
 	
-  	// Define input channels 
-  	// cohort_ch = Channel.fromPath("${params.cohort}")
-  	// outDir_ch = Channel.fromPath("${params.outDir}")
-
-	refdir='/scratch/wz54/gs5517/sarek_testing/Reference/v0'
-
-	// Could not set it to "" or "./" :-( - Some issue on the Nimbus instance - Will check this
-	base_path="/scratch/wz54/npd561/PIPE-2629_thyroid_carcinoma/nextflow_pipelines/nfcore/sarek/Somatic-ShortV/nextflow/make_PON_and_run_mutect2/final_scripts_production_withsnpEff/run_mutect2_and_filter_DSL2"
-
-	// TBD Add the files below to the above refdir
-	small_exac_common_path="/scratch/wz54/npd561/PIPE-2629_thyroid_carcinoma/nextflow_pipelines/nfcore/sarek/Somatic-ShortV/nextflow/make_PON_and_run_mutect2"
-	params.common_biallelic_path="$small_exac_common_path/small_exac_common_3.hg38.vcf.gz"
-	params.common_biallelic_idx_path="$small_exac_common_path/small_exac_common_3.hg38.vcf.gz.tbi"
-
-	// Set PATH pointing to the 'bam' files 
-	params.bams = "/scratch/er01/PIPE-2629-ThyroidCancer/nf_sarek/preprocess_*/Preprocessing/*/Recalibrated/*-{N,T}.recal.bam"
+  	// Define params and input channels 
+	
+	// 
+	base_path=""
+	
+	// Set PATH pointing to the input 'bam' file-pairs 
+	params.bams = "$base_path/Preprocessing/*/Recalibrated/*-{N,T}.recal.bam"
 	// bam pair channel
 	bam_pair_ch=Channel.fromFilePairs( params.bams )
+	
+	refdir="$base_path/Reference/v0"
 
+	
+	// TBD Add the files below to the above refdir
+	
+	params.common_biallelic_path="$base_path/allelic_references/small_exac_common_3.hg38.vcf.gz"
+	params.common_biallelic_idx_path="$base_path/allelic_references/small_exac_common_3.hg38.vcf.gz.tbi"
+	
 	params.outdir="$base_path/results_mutect2"
 
 	// PATH to PoN (created previously)
