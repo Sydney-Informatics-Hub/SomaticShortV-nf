@@ -124,23 +124,7 @@ The important features are:
 The most basic run command for this pipeline is: 
 
 ```
-nextflow run main.nf \
-        -with-report _Mutect2AndFilter.html \
-        -with-timeline timeline_report_Mutect2AndFilter.html \
-	      -with-dag results/pipeline_flowchart.pdf
-
-
-// We need to pass the ref path to the above comand - similar to the command below!
-// Possibly I also need to tweak the command to include a cutom sample.tsv or to keep it simple for now, provide a path to the input files folder
-
-// nextflow run main.nf  \
-//     --input sample.tsv \
-//     --ref /path/to/ref \
-//     -with-report excecution_report.html \
-//.    -with-timeline timeline_report.html \
-//     -with-dag pipeline_flowchart.pdf
-
-
+nextflow run main.nf --refdir reference.fasta
 
 ```
 
