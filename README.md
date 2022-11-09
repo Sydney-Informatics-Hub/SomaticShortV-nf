@@ -124,7 +124,7 @@ The important features are:
 The most basic run command for this pipeline is: 
 
 ```
-nextflow run main.nf --refdir reference.fasta
+nextflow run main.nf --ref reference.fasta
 
 ```
 
