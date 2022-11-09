@@ -86,14 +86,15 @@ workDir     : ${workflow.workDir}
 
 def helpMessage() {
     log.info"""
-  Usage:  nextflow run <PATH TO REPO>/myPipeline-nf <args> --outDir
+  Usage:  nextflow run main.nf --ref reference.fasta
 
   Required Arguments:
-	--outDir	Specify path to output directory
-
-	--input		Specify full path and name of sample
-			input file (tab separated).
-    """.stripIndent()
+	//--input		  Full path and name of sample input file (tsv format).
+	--ref			  Full path and name of reference genome (fasta format).
+	
+  Optional Arguments:
+  --outDir    Specify name of results directory. 
+  """.stripIndent()
 }
 
 /// Main workflow structure. 
@@ -122,50 +123,35 @@ workflow {
 	
   	// Define params and input channels 
 	
-	// 
-	base_path=""
 	
 	// Set PATH pointing to the input 'bam' file-pairs 
-	params.bams = "$base_path/Preprocessing/*/Recalibrated/*-{N,T}.recal.bam"
+	params.bams = "$base_dir/Preprocessing/*/Recalibrated/*-{N,T}.recal.bam"
 	// bam pair channel
 	bam_pair_ch=Channel.fromFilePairs( params.bams )
 	
-	refdir="$base_path/Reference/v0"
-
 	
-	// TBD Add the files below to the above refdir
 	
-	params.common_biallelic_path="$base_path/allelic_references/small_exac_common_3.hg38.vcf.gz"
-	params.common_biallelic_idx_path="$base_path/allelic_references/small_exac_common_3.hg38.vcf.gz.tbi"
-	
-	params.outdir="$base_path/results_mutect2"
 
-	// PATH to PoN (created previously)
-	params.ponvcf="$base_path/pon.vcf.gz"
-	params.ponvcf_index="$base_path/pon.vcf.gz.tbi"
-
-	// Intervals for 'Scatter-Gather'
-	intervalList=['a','b','c','d','e','f','g','h','i','j','k','l','m','n']
 
 
 	# Run the processes 
-	mutect2(params.ponvcf,params.ponvcf_index,bam_pair_ch,intervalList,base_path,refdir)
+	mutect2(params.ponvcf,params.ponvcf+'.tbi',bam_pair_ch,intervalList,base_dir,refdir)
 
-	GatherVcfs_step(mutect2.out[0].collect(),bam_pair_ch,base_path,refdir)
+	GatherVcfs_step(mutect2.out[0].collect(),bam_pair_ch,base_dir,refdir)
 
-	MergeMutectStats(bam_pair_ch,GatherVcfs_step.out[0].collect(),base_path,refdir)
+	MergeMutectStats(bam_pair_ch,GatherVcfs_step.out[0].collect(),base_dir,refdir)
 
-	LearnReadOrientationModel(MergeMutectStats.out[1].collect(),bam_pair_ch,base_path,refdir)
+	LearnReadOrientationModel(MergeMutectStats.out[1].collect(),bam_pair_ch,base_dir,refdir)
 
-	GetPileupSummaries_T(params.common_biallelic_path,params.common_biallelic_idx_path,bam_pair_ch,LearnReadOrientationModel.out.collect(),base_path,refdir)
+	GetPileupSummaries_T(params.common_biallelic_path,params.common_biallelic_path+'.tbi', bam_pair_ch,LearnReadOrientationModel.out.collect(),base_dir,refdir)
 
-	GetPileupSummaries_N(params.common_biallelic_path,params.common_biallelic_idx_path,bam_pair_ch,LearnReadOrientationModel.out.collect(),base_path,refdir)
+	GetPileupSummaries_N(params.common_biallelic_path,params.common_biallelic_path+'.tbi',bam_pair_ch,LearnReadOrientationModel.out.collect(),base_dir,refdir)
 
-	CalculateContamination(bam_pair_ch,GetPileupSummaries_T.out.collect(),GetPileupSummaries_N.out.collect(),base_path,refdir)
+	CalculateContamination(bam_pair_ch,GetPileupSummaries_T.out.collect(),GetPileupSummaries_N.out.collect(),base_dir,refdir)
 
-	FilterMutectCalls(bam_pair_ch,CalculateContamination.out[0].collect(),params.outdir,base_path,refdir)	
+	FilterMutectCalls(bam_pair_ch,CalculateContamination.out[0].collect(),params.outdir,base_dir,refdir)	
 
-	getFilteredVariants_and_annotate(bam_pair_ch,FilterMutectCalls.out.collect(),params.outdir,base_path,refdir)
+	getFilteredVariants_and_annotate(bam_pair_ch,FilterMutectCalls.out.collect(),params.outdir,base_dir,refdir)
 
 
 	}}
