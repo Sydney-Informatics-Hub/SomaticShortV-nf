@@ -1,8 +1,5 @@
 #!/usr/bin/env nextflow
 
-refdir='/scratch/wz54/gs5517/sarek_testing/Reference/v0'
-base_path='/scratch/wz54/npd561/PIPE-2629_thyroid_carcinoma/nextflow_pipelines/nfcore/sarek'
-
 process CalculateContamination {
 
         tag "CalculateContamination $bam_id"
