@@ -12,7 +12,7 @@ process LearnReadOrientationModel {
         input:
                 path ('*')
 		tuple val(bam_id) , file(bams)
-
+		path base_path
 
         output:
                 path ("${bam_id}-T_${bam_id}-N.read-orientation-model.tar.gz")
