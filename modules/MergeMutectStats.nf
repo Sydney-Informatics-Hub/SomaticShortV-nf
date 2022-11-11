@@ -1,6 +1,5 @@
 #!/usr/bin/env nextflow
 
-base_path='/scratch/wz54/npd561/PIPE-2629_thyroid_carcinoma/nextflow_pipelines/nfcore/sarek'
 
 process MergeMutectStats {
 
@@ -11,6 +10,7 @@ process MergeMutectStats {
         input:
 		tuple val(bam_id) , file(bams)
                 path ('*') 
+		path base_path
 
 
         output:
