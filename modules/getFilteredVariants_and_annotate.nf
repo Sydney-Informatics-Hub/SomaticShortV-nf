@@ -17,7 +17,6 @@ process getFilteredVariants_and_annotate {
 
                 path outdir
 
-                path base_path
                 path refdir_path
 
 
