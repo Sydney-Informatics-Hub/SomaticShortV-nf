@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
   
 
-
+// Substitute this with a singularity container
 command_path="/scratch/wz54/npd561/installations/snpEff/snpEff"
 
 
