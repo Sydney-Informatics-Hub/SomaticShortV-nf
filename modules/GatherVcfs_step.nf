@@ -1,6 +1,5 @@
 #!/usr/bin/env nextflow
 
-refdir='/scratch/wz54/gs5517/sarek_testing/Reference/v0'
 
 
 process GatherVcfs_step {
@@ -12,6 +11,7 @@ process GatherVcfs_step {
         input:
                 path ('*')
                 tuple val(bam_id) , file(bams)
+                
 
         output:
                 path ("${bam_id}-T_${bam_id}-N.unfiltered.vcf.gz")
