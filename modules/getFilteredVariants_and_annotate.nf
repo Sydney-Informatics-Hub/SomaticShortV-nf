@@ -18,7 +18,7 @@ process getFilteredVariants_and_annotate {
                 path outdir
 
                 path base_path
-                path refdir
+                path refdir_path
 
 
         output:
@@ -32,7 +32,7 @@ process getFilteredVariants_and_annotate {
                 --input !{params.outdir}/Mutect2_filtered/!{bam_id}-T_!{bam_id}-N.filtered.vcf.gz
 
         gatk SelectVariants \
-                -R !{refdir}/Homo_sapiens_assembly38.fasta \
+                -R !{refdir_path}/Homo_sapiens_assembly38.fasta \
                 -V !{params.outdir}/Mutect2_filtered/!{bam_id}-T_!{bam_id}-N.filtered.vcf.gz \
                 --exclude-filtered true \
                 -O !{bam_id}-T_!{bam_id}-N.filtered_only.vcf.gz
