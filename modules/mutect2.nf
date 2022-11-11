@@ -25,6 +25,8 @@ process mutect2 {
                 tuple val(bam_id) , file(bams)
 
                 each splitIntervalNumber
+		path base_path
+		path refdir
 
         // See: https://www.nextflow.io/docs/latest/process.html#outputs
 	// each new output needs to be placed on a new line
