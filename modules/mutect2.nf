@@ -3,9 +3,6 @@
 // Enable DSL-2 syntax
 nextflow.enable.dsl=2
 
-refdir='/scratch/wz54/gs5517/sarek_testing/Reference/v0'
-base_path='/scratch/wz54/npd561/PIPE-2629_thyroid_carcinoma/nextflow_pipelines/nfcore/sarek'
-
 // Define the process
 /// This process runs mutect2 on a tumor/normal sample-pair 
 
