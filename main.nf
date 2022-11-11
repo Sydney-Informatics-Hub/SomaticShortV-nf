@@ -135,23 +135,23 @@ workflow {
 
 
 	# Run the processes 
-	mutect2(params.ponvcf,params.ponvcf+'.tbi',bam_pair_ch,intervalList,base_dir,refdir)
+	mutect2(params.ponvcf,params.ponvcf+'.tbi',bam_pair_ch,intervalList,base_path,refdir_path)
 
-	GatherVcfs_step(mutect2.out[0].collect(),bam_pair_ch,base_dir,refdir)
+	GatherVcfs_step(mutect2.out[0].collect(),bam_pair_ch)
 
-	MergeMutectStats(bam_pair_ch,GatherVcfs_step.out[0].collect(),base_dir,refdir)
+	MergeMutectStats(bam_pair_ch,GatherVcfs_step.out[0].collect(),base_path)
 
-	LearnReadOrientationModel(MergeMutectStats.out[1].collect(),bam_pair_ch,base_dir,refdir)
+	LearnReadOrientationModel(MergeMutectStats.out[1].collect(),bam_pair_ch,base_path)
 
-	GetPileupSummaries_T(params.common_biallelic_path,params.common_biallelic_path+'.tbi', bam_pair_ch,LearnReadOrientationModel.out.collect(),base_dir,refdir)
+	GetPileupSummaries_T(params.common_biallelic_path,params.common_biallelic_path+'.tbi', bam_pair_ch,LearnReadOrientationModel.out.collect())
 
-	GetPileupSummaries_N(params.common_biallelic_path,params.common_biallelic_path+'.tbi',bam_pair_ch,LearnReadOrientationModel.out.collect(),base_dir,refdir)
+	GetPileupSummaries_N(params.common_biallelic_path,params.common_biallelic_path+'.tbi',bam_pair_ch,LearnReadOrientationModel.out.collect())
 
-	CalculateContamination(bam_pair_ch,GetPileupSummaries_T.out.collect(),GetPileupSummaries_N.out.collect(),base_dir,refdir)
+	CalculateContamination(bam_pair_ch,GetPileupSummaries_T.out.collect(),GetPileupSummaries_N.out.collect())
 
-	FilterMutectCalls(bam_pair_ch,CalculateContamination.out[0].collect(),params.outdir,base_dir,refdir)	
+	FilterMutectCalls(bam_pair_ch,CalculateContamination.out[0].collect(),params.outdir)	
 
-	getFilteredVariants_and_annotate(bam_pair_ch,FilterMutectCalls.out.collect(),params.outdir,base_dir,refdir)
+	getFilteredVariants_and_annotate(bam_pair_ch,FilterMutectCalls.out.collect(),params.outdir,refdir_path)
 
 
 	}}
