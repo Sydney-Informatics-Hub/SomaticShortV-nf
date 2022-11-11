@@ -1,7 +1,5 @@
 #!/usr/bin/env nextflow
 
-base_path='/scratch/wz54/npd561/PIPE-2629_thyroid_carcinoma/nextflow_pipelines/nfcore/sarek'
-
 process LearnReadOrientationModel {
 
         tag "LearnReadOrientationModel $bam_id"
