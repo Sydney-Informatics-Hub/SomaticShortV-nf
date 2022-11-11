@@ -1,19 +1,17 @@
 #!/usr/bin/env nextflow
 
-refdir='/scratch/wz54/gs5517/sarek_testing/Reference/v0'
 
 process FilterMutectCalls {
 
         tag "FilterMutectCalls $bam_id"
-        publishDir "$params.outdirB/filtered/", mode:'copy'
+        publishDir "$params.outdir/filtered/", mode:'copy'
 
 
         input :
 		tuple val(bam_id) , file(bams)
                 path pair_contaminationTable
 
-                path outDirA
-                path outdirB
+                path outdir
 
         output :
                 path ("${bam_id}-T_${bam_id}-N.filtered.vcf.gz")
@@ -24,10 +22,10 @@ process FilterMutectCalls {
                 FilterMutectCalls \
                 --reference !{refdir}/Homo_sapiens_assembly38.fasta \
                 -V !{params.outdirA}/Mutect2/!{bam_id}-T_!{bam_id}-N.unfiltered.vcf.gz \
-                --stats !{params.outdirB}/!{bam_id}-T_!{bam_id}-N.unfiltered.stats \
-                --tumor-segmentation !{params.outdirB}/!{bam_id}-T_segments.table \
-                --contamination-table  !{params.outdirB}/!{bam_id}-T_!{bam_id}-N_contamination.table \
-                --ob-priors !{params.outdirB}/!{bam_id}-T_!{bam_id}-N.read-orientation-model.tar.gz \
+                --stats !{params.outdir}/!{bam_id}-T_!{bam_id}-N.unfiltered.stats \
+                --tumor-segmentation !{params.outdir}/!{bam_id}-T_segments.table \
+                --contamination-table  !{params.outdir}/!{bam_id}-T_!{bam_id}-N_contamination.table \
+                --ob-priors !{params.outdir}/!{bam_id}-T_!{bam_id}-N.read-orientation-model.tar.gz \
                 -O !{bam_id}-T_!{bam_id}-N.filtered.vcf.gz
 
 
