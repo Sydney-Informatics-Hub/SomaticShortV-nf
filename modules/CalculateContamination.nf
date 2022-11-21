@@ -1,5 +1,9 @@
 #!/usr/bin/env nextflow
 
+nextflow.enable.dsl=2
+
+container "${params.gatk4__container}"
+
 process CalculateContamination {
 
         tag "CalculateContamination $bam_id"
