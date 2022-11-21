@@ -1,6 +1,8 @@
 #!/usr/bin/env nextflow
 
 
+container "${params.gatk4__container}"
+
 process MergeMutectStats {
 
         tag "MergeMutectStats"
