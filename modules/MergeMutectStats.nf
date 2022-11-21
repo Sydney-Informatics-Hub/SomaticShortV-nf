@@ -1,5 +1,8 @@
 #!/usr/bin/env nextflow
 
+/// To use DSL-2 will need to include this
+nextflow.enable.dsl=2
+
 
 container "${params.gatk4__container}"
 
