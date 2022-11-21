@@ -1,6 +1,10 @@
 #!/usr/bin/env nextflow
   
 
+nextflow.enable.dsl=2
+
+container "${params.gatk4__container}"
+
 // Substitute this with a singularity container
 command_path="/scratch/wz54/npd561/installations/snpEff/snpEff"
 
