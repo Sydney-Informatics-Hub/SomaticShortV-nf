@@ -1,6 +1,10 @@
 #!/usr/bin/env nextflow
 
 
+nextflow.enable.dsl=2
+
+container "${params.gatk4__container}"
+
 process FilterMutectCalls {
 
         tag "FilterMutectCalls $bam_id"
