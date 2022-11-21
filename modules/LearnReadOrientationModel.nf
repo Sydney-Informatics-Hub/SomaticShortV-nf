@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+container "${params.gatk4__container}"
+
 process LearnReadOrientationModel {
 
         tag "LearnReadOrientationModel $bam_id"
