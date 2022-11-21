@@ -6,6 +6,10 @@ nextflow.enable.dsl=2
 // Define the process
 /// This process runs mutect2 on a tumor/normal sample-pair 
 
+cpus 1
+container "${params.gatk4__container}"
+    
+
 process mutect2 {
 
         // Unhash container command below and edit name of container
