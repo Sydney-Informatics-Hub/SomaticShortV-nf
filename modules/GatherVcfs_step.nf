@@ -1,6 +1,7 @@
 #!/usr/bin/env nextflow
 
 
+container "${params.gatk4__container}"
 
 process GatherVcfs_step {
 
