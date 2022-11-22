@@ -31,7 +31,8 @@ There are three main steps in the process of calling Somatic Short Variants:
   * Made from normal samples i.e. the samples derived from healthy tissue and 
   * Their main purpose is to capture recurrent technical artifacts in order to improve the results of the variant calling analysis.
 <br>
-(2) **Call the somatic short variants for a tumor-normal pair**
+
+(2) **Call the somatic short variants for a tumor-normal pair** :
 <br>The two main steps involved in calling  Somatic Short Variants are - 
   * Generate a large set of candidate somatic variants,
   * Filter the candidate somatic variants into a more confident set of somatic variant calls.
@@ -49,7 +50,7 @@ There are three main steps in the process of calling Somatic Short Variants:
 ## Diagram
 
 <p align="center"> 
-<img src="./images/Somatic_variant_calling.png" width="80%">
+<img src="./images/Somatic_variant_calling.png" width="60%">
 </p> 
 
 ## User guide 
