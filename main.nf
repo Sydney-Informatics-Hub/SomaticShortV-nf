@@ -121,17 +121,11 @@ workflow {
 	else 
 	{
 	
-  	// Define params and input channels 
-	
-	
-	// Set PATH pointing to the input 'bam' file-pairs 
-	params.bams = "$base_dir/Preprocessing/*/Recalibrated/*-{N,T}.recal.bam"
+  	// Define input channels 
 	// bam pair channel
 	bam_pair_ch=Channel.fromFilePairs( params.bams )
 	
 	
-	
-
 
 
 	# Run the processes 
